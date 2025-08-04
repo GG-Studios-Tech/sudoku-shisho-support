@@ -41,40 +41,41 @@
 </head>
 <body>
     <h1>Sudoku Shisho Privacy Policy</h1>
-    <p><em>Last Updated: July 13, 2025</em></p>
+    <p><em>Last Updated: August 3, 2025</em></p>
     <p>Your privacy is important to us. This Privacy Policy explains how <strong>Sudoku Shisho</strong> collects, uses, and protects your information when you use our mobile application available on iOS. By using Sudoku Shisho, you agree to the practices described in this policy.</p>
 
     <div class="section">
         <h2>1. Information We Collect</h2>
-        <p>We strive to minimize data collection to provide a seamless gaming experience. Below are the types of information we may collect:</p>
+        <p>We minimize data collection to provide a seamless gaming experience. Below are the types of information we may collect:</p>
         <ul>
             <li><strong>Anonymous Gameplay Data</strong>:
                 <ul>
                     <li>No personal information is required to play Sudoku Shisho.</li>
-                    <li>A device-based identifier is used to save your game progress locally on your device.</li>
+                    <li>A device-based identifier is encrypted using a secure XOR cipher and stored in our Appwrite backend to manage game progress.</li>
+                    <li>For legacy data, unencrypted identifiers may exist but are transitioned to encrypted storage.</li>
                 </ul>
             </li>
             <li><strong>Sign in with Apple (Optional)</strong>:
                 <ul>
                     <li>If you choose to use Sign in with Apple, we receive a unique, anonymized user ID to sync your game progress across devices.</li>
-                    <li>You can opt to share your email with us or use Apple’s private email relay feature, which hides your email address.</li>
+                    <li>You can opt to share your email or use Apple’s private email relay to hide your email address.</li>
                 </ul>
             </li>
             <li><strong>Multiplayer Data</strong>:
                 <ul>
-                    <li>For multiplayer modes (Time Attack, Battle, Co-op), we collect temporary session data (e.g., player IDs, scores, and game state) to facilitate gameplay over Bluetooth or internet connections.</li>
+                    <li>For multiplayer modes (Time Attack, Battle, Co-op), we collect temporary session data (e.g., encrypted player IDs, scores, and game state) to facilitate gameplay over Bluetooth or internet connections.</li>
                     <li>No personally identifiable information is stored for multiplayer sessions.</li>
                 </ul>
             </li>
             <li><strong>In-App Purchases</strong>:
                 <ul>
-                    <li>Purchase data (e.g., for "Beginner Sudoku Boards") is processed through the App Store and managed by Apple, not us.</li>
+                    <li>Purchase data (e.g., for "Beginner Sudoku Boards") is processed by Apple and managed under their <a href="https://www.apple.com/legal/privacy/">Privacy Policy</a>.</li>
                     <li>We do not collect payment details or financial information.</li>
                 </ul>
             </li>
             <li><strong>Support Requests</strong>:
                 <ul>
-                    <li>If you contact us via email (<a href="mailto:support@sudokushisho.com">support@sudokushisho.com</a>) or a contact form, we may collect your email address and any information you provide to resolve your inquiry.</li>
+                    <li>If you contact us via email (<a href="mailto:nate_vazquez@icloud.com">support@sudokushisho.com</a>), we may collect your email address and information you provide to resolve your inquiry.</li>
                 </ul>
             </li>
         </ul>
@@ -96,21 +97,27 @@
         <h2>3. Data Sharing</h2>
         <ul>
             <li><strong>Apple</strong>: Sign in with Apple and in-app purchase data are managed by Apple under their <a href="https://www.apple.com/legal/privacy/">Privacy Policy</a>.</li>
-            <li><strong>Service Providers</strong>: We may use third-party services for multiplayer connectivity, which process temporary session data but do not store personal information.</li>
+            <li><strong>Service Providers</strong>: We use Appwrite for secure data storage, with device identifiers encrypted using a Web Crypto API-based XOR cipher.</li>
             <li><strong>Legal Requirements</strong>: We may disclose data if required by law or to protect our rights.</li>
         </ul>
     </div>
 
     <div class="section">
         <h2>4. Data Security</h2>
-        <p>We implement reasonable measures to protect your data, such as secure storage of device-based identifiers and encryption for multiplayer session data. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+        <p>We implement robust security measures to protect your data:</p>
+        <ul>
+            <li>Device-based identifiers are encrypted using a Web Crypto API-based XOR cipher with a 256-bit key stored securely in your device’s iOS Keychain.</li>
+            <li>Legacy unencrypted data is supported for backward compatibility but transitioned to encrypted storage upon access.</li>
+            <li>Multiplayer session data is encrypted during transmission over secure HTTPS connections.</li>
+        </ul>
+        <p>While we strive to protect your data, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
     </div>
 
     <div class="section">
         <h2>5. Your Choices</h2>
         <ul>
             <li><strong>Sign in with Apple</strong>: You can play anonymously without signing in, or use Apple’s private email relay to hide your email.</li>
-            <li><strong>Data Deletion</strong>: To delete your game progress, uninstall the app or clear app data via Settings > General > iPhone Storage > Sudoku Shisho.</li>
+            <li><strong>Data Deletion</strong>: To delete your game progress, uninstall the app or clear app data via Settings > General > iPhone Storage > Sudoku Shisho. Contact us to delete server-stored data.</li>
             <li><strong>Support Data</strong>: Contact us to request deletion of any data provided through support inquiries.</li>
         </ul>
     </div>
@@ -135,7 +142,7 @@
     </div>
 
     <div class="footer">
-        <p><em>Last Updated: July 13, 2025</em></p>
+        <p><em>Last Updated: August 3, 2025</em></p>
     </div>
 </body>
 </html>
