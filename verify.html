@@ -170,18 +170,50 @@
         function handleVerification() {
             const content = document.getElementById('content');
             const params = getUrlParams();
-            const userId = params.userId || params.userid;
+            
+            // Debug: Show all received parameters
+            console.log("All URL parameters received:", params);
+            console.log("Current URL:", window.location.href);
+            
+            // Try different parameter name variations that Appwrite might use
+            const userId = params.userId || params.userid || params.user;
             const secret = params.secret;
+            const expire = params.expire;
             const token = params.token;
             
-            console.log("Verification parameters received:", { userId, secret, token });
+            console.log("Parsed verification parameters:", { userId, secret, expire, token });
             
-            // Check if all required parameters are present
-            if (!userId || !secret || !token) {
+            // Show debug info if no parameters found
+            if (Object.keys(params).length === 0) {
                 content.innerHTML = `
                     <div class="error">
-                        <h3>Missing Verification Parameters</h3>
-                        <p>This verification link is invalid or has expired.</p>
+                        <h3>No Parameters Received</h3>
+                        <p>The verification link doesn't contain the expected parameters.</p>
+                        <p><strong>Current URL:</strong><br><code>${window.location.href}</code></p>
+                        <p>Please make sure you clicked the verification link from your email exactly as it appears.</p>
+                    </div>
+                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">Go to Support</a>
+                `;
+                return;
+            }
+            
+            // Show all received parameters for debugging
+            if (!userId || !secret) {
+                let paramsList = '';
+                for (const [key, value] of Object.entries(params)) {
+                    paramsList += `<p><strong>${key}:</strong> <code>${value}</code></p>`;
+                }
+                
+                content.innerHTML = `
+                    <div class="warning">
+                        <h3>Debug: Parameters Received</h3>
+                        <p>The following parameters were found in the URL:</p>
+                        ${paramsList}
+                        <p><strong>Expected:</strong> userId/userid, secret, and optionally expire or token</p>
+                    </div>
+                    <div class="error">
+                        <h3>Missing Required Parameters</h3>
+                        <p>This verification link is missing required parameters (userId and secret).</p>
                         <p>Please request a new verification email from within the Sudoku Mobile app.</p>
                     </div>
                     <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">Go to Support</a>
@@ -214,9 +246,9 @@
             
             // Use different schemes based on platform
             if (os === "iOS") {
-                deepLink = `sudokumobile://verify?userId=${userId}&secret=${secret}&token=${token}`;
+                deepLink = `sudokumobile://verify?userId=${userId}&secret=${secret}&expire=${expire || token || ''}`;
             } else if (os === "Android") {
-                deepLink = `intent://verify?userId=${userId}&secret=${secret}&token=${token}#Intent;scheme=sudokumobile;package=com.ggstudios.sudoku;end`;
+                deepLink = `intent://verify?userId=${userId}&secret=${secret}&expire=${expire || token || ''}#Intent;scheme=sudokumobile;package=com.ggstudios.sudoku;end`;
             } else {
                 // For web - show parameters for manual verification
                 content.innerHTML = `
@@ -230,7 +262,7 @@
                         <p>If you're having trouble with automatic verification, you can manually enter these values in the app:</p>
                         <p><strong>User ID:</strong><br><code>${userId}</code></p>
                         <p><strong>Secret:</strong><br><code>${secret}</code></p>
-                        <p><strong>Token:</strong><br><code>${token}</code></p>
+                        <p><strong>Expire:</strong><br><code>${expire || token || 'N/A'}</code></p>
                         <div class="info">
                             <p><strong>Steps:</strong></p>
                             <ol>
@@ -282,7 +314,7 @@
                             </ol>
                             <p><strong>User ID:</strong><br><code>${userId}</code></p>
                             <p><strong>Secret:</strong><br><code>${secret}</code></p>
-                            <p><strong>Token:</strong><br><code>${token}</code></p>
+                            <p><strong>Expire:</strong><br><code>${expire || token || 'N/A'}</code></p>
                         </div>
                         
                         <div class="info">
@@ -303,4 +335,3 @@
     </script>
 </body>
 </html>
-
