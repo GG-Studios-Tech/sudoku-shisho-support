@@ -1,1 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Mobile - Email Verification</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            padding: 40px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #1976D2;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .logo {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #1976D2 0%, #42a5f5 100%);
+            color: white;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1976D2;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .info {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .manual-instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 4px solid #1976D2;
+        }
+        .manual-instructions h3 {
+            margin-top: 0;
+            color: #1976D2;
+        }
+        .manual-instructions code {
+            background: #e3f2fd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            word-break: break-all;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+        }
+        .footer a {
+            color: #1976D2;
+            text-decoration: none;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #ffebee;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .success {
+            color: #2e7d32;
+            background-color: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .warning {
+            color: #f57c00;
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sudoku Mobile</h1>
+        <div class="logo">Email Verification</div>
+        <div id="content">
+            <div class="loader"></div>
+            <p>Processing verification...</p>
+        </div>
+        
+        <div class="footer">
+            <p>
+                <a href="https://gg-studios-tech.github.io/sudoku-shisho-support/">Return to Support</a> | 
+                <a href="https://gg-studios-tech.github.io/sudoku-shisho-support/privacy.html">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = {};
+            const search = window.location.search.substring(1);
+            if (!search) return params;
+            
+            const pairs = search.split('&');
+            for (const pair of pairs) {
+                const [key, value] = pair.split('=');
+                params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+            }
+            return params;
+        }
+        
+        // Detect if running on iOS, Android or other platform
+        function getMobileOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(userAgent)) return "Android";
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) return "iOS";
+            return "Other";
+        }
+
+        // Main function that handles the verification redirection
+        function handleVerification() {
+            const content = document.getElementById('content');
+            const params = getUrlParams();
+            const userId = params.userId || params.userid;
+            const secret = params.secret;
+            const token = params.token;
+            
+            console.log("Verification parameters received:", { userId, secret, token });
+            
+            // Check if all required parameters are present
+            if (!userId || !secret || !token) {
+                content.innerHTML = `
+                    <div class="error">
+                        <h3>Missing Verification Parameters</h3>
+                        <p>This verification link is invalid or has expired.</p>
+                        <p>Please request a new verification email from within the Sudoku Mobile app.</p>
+                    </div>
+                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">Go to Support</a>
+                `;
+                return;
+            }
+            
+            // Create app deep link
+            const os = getMobileOS();
+            let deepLink;
+
+            // For this method, we'll test if we're already in the app's webview or in a browser
+            if (window.ReactNativeWebView) {
+                // We are in the app's webview, post message to React Native
+                window.ReactNativeWebView.postMessage(JSON.stringify({
+                    type: 'verification',
+                    userId,
+                    secret,
+                    token
+                }));
+                content.innerHTML = `
+                    <div class="success">
+                        <h3>Verification in Progress</h3>
+                        <p>Please wait while we verify your email address...</p>
+                        <div class="loader"></div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Use different schemes based on platform
+            if (os === "iOS") {
+                deepLink = `sudokumobile://verify?userId=${userId}&secret=${secret}&token=${token}`;
+            } else if (os === "Android") {
+                deepLink = `intent://verify?userId=${userId}&secret=${secret}&token=${token}#Intent;scheme=sudokumobile;package=com.ggstudios.sudoku;end`;
+            } else {
+                // For web - show parameters for manual verification
+                content.innerHTML = `
+                    <div class="warning">
+                        <h3>Desktop Device Detected</h3>
+                        <p>Please open this verification link on your mobile device where the Sudoku Mobile app is installed.</p>
+                    </div>
+                    
+                    <div class="manual-instructions">
+                        <h3>Manual Verification</h3>
+                        <p>If you're having trouble with automatic verification, you can manually enter these values in the app:</p>
+                        <p><strong>User ID:</strong><br><code>${userId}</code></p>
+                        <p><strong>Secret:</strong><br><code>${secret}</code></p>
+                        <p><strong>Token:</strong><br><code>${token}</code></p>
+                        <div class="info">
+                            <p><strong>Steps:</strong></p>
+                            <ol>
+                                <li>Open the Sudoku Mobile app</li>
+                                <li>Go to Settings → Account</li>
+                                <li>Find "Email Verification"</li>
+                                <li>Enter the values above</li>
+                            </ol>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Try to redirect to the app
+            content.innerHTML = `
+                <div class="success">
+                    <h3>Opening Sudoku Mobile App</h3>
+                    <p>Redirecting you to the app for verification...</p>
+                </div>
+                <a class="btn" href="${deepLink}" id="redirectBtn">Open in App</a>
+                <div class="info">
+                    <p>Make sure Sudoku Mobile is installed on your device.</p>
+                    <p>If the app doesn't open automatically, tap the button above.</p>
+                </div>
+            `;
+            
+            // Automatically try to open the app
+            setTimeout(() => {
+                window.location.href = deepLink;
+                
+                // After 3 seconds, if still here, show fallback message with more detailed instructions
+                setTimeout(() => {
+                    content.innerHTML = `
+                        <div class="warning">
+                            <h3>Unable to Open App Automatically</h3>
+                            <p>Please try tapping the button below:</p>
+                        </div>
+                        <a class="btn" href="${deepLink}">Open Sudoku Mobile</a>
+                        
+                        <div class="manual-instructions">
+                            <h3>Alternative: Manual Verification</h3>
+                            <p>If the button above doesn't work, follow these steps:</p>
+                            <ol>
+                                <li>Open the Sudoku Mobile app manually</li>
+                                <li>Go to Settings → Account</li>
+                                <li>Find "Email Verification"</li>
+                                <li>Enter these values:</li>
+                            </ol>
+                            <p><strong>User ID:</strong><br><code>${userId}</code></p>
+                            <p><strong>Secret:</strong><br><code>${secret}</code></p>
+                            <p><strong>Token:</strong><br><code>${token}</code></p>
+                        </div>
+                        
+                        <div class="info">
+                            <p><strong>Troubleshooting:</strong></p>
+                            <ul>
+                                <li>Make sure Sudoku Mobile is installed and up to date</li>
+                                <li>Try copying the verification values and entering them manually</li>
+                                <li>Contact support if you continue having issues</li>
+                            </ul>
+                        </div>
+                    `;
+                }, 3000);
+            }, 1000);
+        }
+
+        // Run when the page loads
+        window.onload = handleVerification;
+    </script>
+</body>
+</html>
 
