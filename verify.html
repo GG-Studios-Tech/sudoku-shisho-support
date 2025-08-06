@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="format-detection" content="telephone=no">
     <title>Sudoku Shisho - Verification Token</title>
     <style>
         * {
@@ -12,22 +16,27 @@
         }
 
         body {
-            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
             margin: 0;
             background: 
                 radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
                 linear-gradient(135deg, #1c1917 0%, #292524 30%, #1c1917 100%);
             color: #f3f4f6;
-            padding: 20px;
+            padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
             text-align: center;
             overflow: hidden;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         /* Traditional Japanese pattern background */
@@ -81,6 +90,7 @@
 
         .container {
             max-width: 500px;
+            width: 100%;
             padding: 40px;
             background: 
                 linear-gradient(145deg, rgba(23, 23, 23, 0.95), rgba(38, 38, 38, 0.95)),
@@ -94,6 +104,12 @@
             border: 2px solid rgba(220, 38, 38, 0.3);
             position: relative;
             z-index: 2;
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
         .container::before {
@@ -123,6 +139,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ninja-token:active {
+            transform: scale(0.95);
+        }
+
+        .ninja-token.touched {
+            animation: tokenPulse 0.6s ease-out;
+        }
+
+        @keyframes tokenPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .shuriken {
@@ -143,6 +175,16 @@
                 0 0 30px rgba(220, 38, 38, 0.6),
                 inset 0 0 20px rgba(255, 255, 255, 0.1),
                 inset 0 0 0 2px rgba(139, 69, 19, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .ninja-token:hover .shuriken,
+        .ninja-token.touched .shuriken {
+            animation: rotateShuriken 2s linear infinite;
+            box-shadow: 
+                0 0 40px rgba(220, 38, 38, 0.8),
+                inset 0 0 20px rgba(255, 255, 255, 0.2),
+                inset 0 0 0 2px rgba(139, 69, 19, 1);
         }
 
         .shuriken.glow {
@@ -240,9 +282,9 @@
                 );
             color: #fef7cd;
             font-weight: 700;
-            padding: 15px 30px;
-            border-radius: 8px;
-            margin: 15px 0;
+            padding: 18px 36px; /* Larger touch target for mobile */
+            border-radius: 12px;
+            margin: 20px 0;
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 
@@ -252,9 +294,21 @@
             border: 2px solid rgba(139, 69, 19, 0.8);
             position: relative;
             overflow: hidden;
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            font-size: 16px; /* Minimum 16px to prevent zoom on iOS */
             letter-spacing: 1px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            min-height: 44px; /* iOS recommended minimum touch target */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
 
         .btn::before {
@@ -457,6 +511,70 @@
             }
         }
     </style>
+
+    <!-- iOS-specific optimizations -->
+    <style>
+        /* Mobile responsive improvements */
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 0 auto;
+            }
+            
+            .ninja-token {
+                transform: scale(0.8);
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 20px auto;
+                display: block;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .ninja-token,
+            .shuriken,
+            .container,
+            .petal {
+                animation: none !important;
+            }
+            
+            .ninja-token:hover .shuriken {
+                animation: none !important;
+            }
+        }
+
+        /* Error handling styles for iOS */
+        .error-message {
+            background: linear-gradient(135deg, #dc2626, #f59e0b);
+            color: #fef7cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Optimized sakura petals for mobile performance */
+        .sakura {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            animation: fall linear infinite;
+            opacity: 0.7;
+        }
+
+        /* Reduced sakura count for mobile performance */
+        .sakura:nth-child(1) { left: 10%; animation-duration: 4s; animation-delay: 0s; }
+        .sakura:nth-child(2) { left: 30%; animation-duration: 5s; animation-delay: 1s; }
+        .sakura:nth-child(3) { left: 50%; animation-duration: 6s; animation-delay: 2s; }
+        .sakura:nth-child(4) { left: 70%; animation-duration: 4.5s; animation-delay: 0.5s; }
+        .sakura:nth-child(5) { left: 90%; animation-duration: 5.5s; animation-delay: 1.5s; }
+    </style>
 </head>
 <body>
     <!-- Animated sakura background -->
@@ -534,6 +652,89 @@
             return "Other";
         }
 
+        // Enhanced deep link handling with iOS optimizations
+        function attemptDeepLinkWithFallback(deepLink, isIOS) {
+            const startTime = Date.now();
+            let appOpened = false;
+            const content = document.getElementById('content');
+            
+            if (isIOS) {
+                // iOS-specific deep link handling with visibility API
+                const handleVisibilityChange = () => {
+                    if (document.hidden) {
+                        appOpened = true;
+                        document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    }
+                };
+                
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                
+                // Try to open the app with enhanced iOS handling
+                try {
+                    window.location.href = deepLink;
+                } catch (error) {
+                    console.warn('Deep link failed:', error);
+                    showAppNotInstalledMessage(content, deepLink, true);
+                    return;
+                }
+                
+                // Enhanced fallback for iOS
+                setTimeout(() => {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    
+                    if (!appOpened && !document.hidden && Date.now() - startTime > 2500) {
+                        showAppNotInstalledMessage(content, deepLink, true);
+                    }
+                }, 3000);
+            } else {
+                // Android/Other platform handling
+                window.location.href = deepLink;
+                
+                setTimeout(() => {
+                    if (!document.hidden) {
+                        showAppNotInstalledMessage(content, deepLink, false);
+                    }
+                }, 3000);
+            }
+        }
+
+        // Show app not installed message with platform-specific store links
+        function showAppNotInstalledMessage(content, deepLink, isIOS) {
+            const storeLink = isIOS 
+                ? 'https://apps.apple.com/app/id123456789'
+                : 'https://play.google.com/store/apps/details?id=your.package.name';
+            const storeName = isIOS ? 'App Store' : 'Play Store';
+            
+            content.innerHTML = `
+                <div class="warning">
+                    <h3>📲 App Installation Required</h3>
+                    <p>Sudoku Shisho needs to be installed to complete verification.</p>
+                    <div style="margin: 20px 0; padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                        <p><strong>Quick Fix:</strong></p>
+                        <ol style="text-align: left; margin: 10px 0; padding-left: 20px;">
+                            <li>📱 Download Sudoku Shisho from ${storeName}</li>
+                            <li>🔄 Return to this page</li>
+                            <li>✅ Verification will complete automatically</li>
+                        </ol>
+                    </div>
+                </div>
+                <a class="btn" href="${storeLink}" target="_blank" style="margin: 10px;">📱 Download App</a>
+                <a class="btn" href="${deepLink}" id="retryBtn" style="margin: 10px;">🔄 Try Again</a>
+            `;
+            
+            // Add touch feedback to retry button
+            const retryBtn = document.getElementById('retryBtn');
+            if (retryBtn) {
+                retryBtn.addEventListener('touchstart', function() {
+                    this.style.transform = 'translateY(-1px) scale(0.98)';
+                }, { passive: true });
+                
+                retryBtn.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                }, { passive: true });
+            }
+        }
+
         // Main function that handles the verification redirection
         function handleVerification() {
             const content = document.getElementById('content');
@@ -560,7 +761,7 @@
                         <p><strong>Mission Status:</strong> Failed</p>
                         <p>Please retrieve a new seal from your email and try again.</p>
                     </div>
-                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">Fallback</a>
+                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">🏠 Return to Base</a>
                 `;
                 return;
             }
@@ -613,11 +814,11 @@
                 return;
             }
             
-            // Use different schemes based on platform
+            // Enhanced deep link construction based on platform
             if (os === "iOS") {
-                deepLink = `sudokumobile://verify?userId=${userId}&secret=${secret}&expire=${expire || token || ''}`;
+                deepLink = `sudokumobile://verify?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}&expire=${encodeURIComponent(expire || token || '')}`;
             } else if (os === "Android") {
-                deepLink = `intent://verify?userId=${userId}&secret=${secret}&expire=${expire || token || ''}#Intent;scheme=sudokumobile;package=com.ggstudios.sudoku;end`;
+                deepLink = `intent://verify?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}&expire=${encodeURIComponent(expire || token || '')}#Intent;scheme=sudokumobile;package=com.ggstudios.sudoku;end`;
             } else {
                 // For web - show parameters for manual verification
                 content.innerHTML = `
@@ -625,28 +826,73 @@
                         <h3>🖥️ Desktop Device Detected</h3>
                         <p>This verification seal must be redeemed on your mobile device where Sudoku Shisho is installed.</p>
                         <p><strong>Mission Requirement:</strong> Mobile Device</p>
-                    </div>
-                    
-                    <div class="manual-instructions">
-                        <h3>🎯 Manual Seal Redemption</h3>
-                        <p>If automatic redemption fails, use these authentication stamps:</p>
-                        <p><strong>User Stamp:</strong><br><code>${userId}</code></p>
-                        <p><strong>Secret Stamp:</strong><br><code>${secret}</code></p>
-                        <p><strong>Expiry Stamp:</strong><br><code>${expire || token || 'Eternal'}</code></p>
-                        <div class="info">
-                            <p><strong>Redemption Steps:</strong></p>
-                            <ol>
-                                <li>🔓 Open Sudoku Shisho app</li>
-                                <li>⚙️ Navigate to Settings → Account</li>
-                                <li>🎫 Find "Email Verification"</li>
-                                <li>🔐 Enter the stamps above</li>
-                                <li>✅ Mission Complete!</li>
+                        <div class="info" style="margin-top: 20px;">
+                            <p>📱 <strong>To continue:</strong></p>
+                            <ol style="text-align: left; margin-left: 20px;">
+                                <li>Open this link on your mobile device</li>
+                                <li>Or copy the link below and send it to your phone</li>
                             </ol>
+                            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                                <code style="word-break: break-all; font-size: 12px;">${window.location.href}</code>
+                            </div>
                         </div>
                     </div>
                 `;
                 return;
             }
+            
+            // Enhanced loading state with platform-specific messaging
+            const platformEmoji = os === "iOS" ? "🍎" : "🤖";
+            const platformName = os === "iOS" ? "iOS" : "Android";
+            
+            content.innerHTML = `
+                <div class="success">
+                    <h3>🚀 Launching Sudoku Shisho</h3>
+                    <p>Opening the app to complete verification...</p>
+                    <div style="margin: 20px 0;">
+                        <div style="width: 100%; height: 6px; background: rgba(220, 38, 38, 0.2); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #dc2626, #f59e0b); border-radius: 3px; animation: launchProgress 3s ease-out;"></div>
+                        </div>
+                        <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">
+                            ${platformEmoji} Optimized for ${platformName}
+                        </p>
+                    </div>
+                </div>
+                <a class="btn" href="${deepLink}" id="manualLaunchBtn">🎯 Manual Launch</a>
+                
+                <style>
+                @keyframes launchProgress {
+                    0% { width: 0%; }
+                    30% { width: 40%; }
+                    60% { width: 70%; }
+                    100% { width: 100%; }
+                }
+                </style>
+            `;
+            
+            // Add enhanced touch feedback
+            const manualBtn = document.getElementById('manualLaunchBtn');
+            if (manualBtn) {
+                manualBtn.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'translateY(-2px) scale(0.97)';
+                    this.style.boxShadow = '0 12px 25px rgba(220, 38, 38, 0.5)';
+                    
+                    // Add haptic feedback simulation
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                }, { passive: true });
+                
+                manualBtn.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                }, { passive: true });
+            }
+            
+            // Enhanced deep link attempt with better error handling
+            setTimeout(() => {
+                attemptDeepLinkWithFallback(deepLink, os === "iOS");
+            }, 1200);
             
             // Try to redirect to the app
             content.innerHTML = `
