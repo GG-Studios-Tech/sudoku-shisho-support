@@ -465,7 +465,7 @@
     <div class="pattern-overlay"></div>
 
     <div class="container">
-        <h1>認証の印</h1>
+        <h1>Verification Seal</h1>
         <div class="subtitle">Sudoku Shisho</div>
         
         <!-- Traditional Shuriken Token -->
@@ -475,11 +475,11 @@
             <div class="token-center"></div>
         </div>
         
-        <div class="token-text">この印を持参して任務を完了せよ</div>
+        <div class="token-text">Present this seal to complete your mission</div>
         
         <div id="content">
             <div class="spinner"></div>
-            <p>印の認証中...</p>
+            <p>Authenticating your seal...</p>
         </div>
         
         <div class="footer">
@@ -555,12 +555,12 @@
             if (Object.keys(params).length === 0) {
                 content.innerHTML = `
                     <div class="error">
-                        <h3>⚠️ 印が無効です</h3>
-                        <p>この認証印には必要な証印データがありません。</p>
-                        <p><strong>任務の状態:</strong> 失敗</p>
-                        <p>メールから新しい印を取得してやり直してください。</p>
+                        <h3>⚠️ Seal Invalid</h3>
+                        <p>This verification seal is missing required authentication data.</p>
+                        <p><strong>Mission Status:</strong> Failed</p>
+                        <p>Please retrieve a new seal from your email and try again.</p>
                     </div>
-                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">🏠 本拠地に戻る</a>
+                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">🏠 Return to Base</a>
                 `;
                 return;
             }
@@ -574,17 +574,17 @@
                 
                 content.innerHTML = `
                     <div class="warning">
-                        <h3>🔍 印の分析</h3>
-                        <p>あなたの認証印には以下のデータが含まれています:</p>
+                        <h3>🔍 Seal Analysis</h3>
+                        <p>Your verification seal contains the following data:</p>
                         ${paramsList}
-                        <p><strong>不足:</strong> 必要な認証印章 (userId と secret)</p>
+                        <p><strong>Missing:</strong> Required authentication stamps (userId and secret)</p>
                     </div>
                     <div class="error">
-                        <h3>❌ 認証失敗</h3>
-                        <p>この印には適切な認証印章がありません。</p>
-                        <p>Sudoku Shisho アプリから新しい認証印をリクエストしてください。</p>
+                        <h3>❌ Authentication Failed</h3>
+                        <p>This seal lacks the proper authentication stamps.</p>
+                        <p>Request a new verification seal from the Sudoku Shisho app.</p>
                     </div>
-                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">🏠 本拠地に戻る</a>
+                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">🏠 Return to Base</a>
                 `;
                 return;
             }
@@ -604,9 +604,9 @@
                 }));
                 content.innerHTML = `
                     <div class="success">
-                        <h3>🗡️ 印が受理されました</h3>
-                        <p>あなたの認証印を処理しています...</p>
-                        <p><strong>任務の状態:</strong> 進行中</p>
+                        <h3>🗡️ Seal Accepted</h3>
+                        <p>Your verification seal is being processed...</p>
+                        <p><strong>Mission Status:</strong> In Progress</p>
                         <div class="spinner"></div>
                     </div>
                 `;
@@ -622,25 +622,25 @@
                 // For web - show parameters for manual verification
                 content.innerHTML = `
                     <div class="warning">
-                        <h3>🖥️ デスクトップ機器を検出</h3>
-                        <p>この認証印は Sudoku Shisho がインストールされているモバイル機器で引き換える必要があります。</p>
-                        <p><strong>任務の要求:</strong> モバイル機器</p>
+                        <h3>🖥️ Desktop Device Detected</h3>
+                        <p>This verification seal must be redeemed on your mobile device where Sudoku Shisho is installed.</p>
+                        <p><strong>Mission Requirement:</strong> Mobile Device</p>
                     </div>
                     
                     <div class="manual-instructions">
-                        <h3>🎯 手動印章引き換え</h3>
-                        <p>自動引き換えが失敗した場合、これらの印章を使用してください:</p>
-                        <p><strong>ユーザー印章:</strong><br><code>${userId}</code></p>
-                        <p><strong>秘密印章:</strong><br><code>${secret}</code></p>
-                        <p><strong>期限印章:</strong><br><code>${expire || token || '永続'}</code></p>
+                        <h3>🎯 Manual Seal Redemption</h3>
+                        <p>If automatic redemption fails, use these authentication stamps:</p>
+                        <p><strong>User Stamp:</strong><br><code>${userId}</code></p>
+                        <p><strong>Secret Stamp:</strong><br><code>${secret}</code></p>
+                        <p><strong>Expiry Stamp:</strong><br><code>${expire || token || 'Eternal'}</code></p>
                         <div class="info">
-                            <p><strong>引き換え手順:</strong></p>
+                            <p><strong>Redemption Steps:</strong></p>
                             <ol>
-                                <li>🔓 Sudoku Shisho アプリを開く</li>
-                                <li>⚙️ 設定 → アカウント に移動</li>
-                                <li>🎫 「メール認証」を見つける</li>
-                                <li>🔐 上記の印章を入力</li>
-                                <li>✅ 任務完了！</li>
+                                <li>🔓 Open Sudoku Shisho app</li>
+                                <li>⚙️ Navigate to Settings → Account</li>
+                                <li>🎫 Find "Email Verification"</li>
+                                <li>🔐 Enter the stamps above</li>
+                                <li>✅ Mission Complete!</li>
                             </ol>
                         </div>
                     </div>
@@ -651,14 +651,14 @@
             // Try to redirect to the app
             content.innerHTML = `
                 <div class="success">
-                    <h3>🚀 扉を開いています</h3>
-                    <p>あなたの印を Sudoku Shisho に転送しています...</p>
-                    <p><strong>任務の状態:</strong> リダイレクト中</p>
+                    <h3>🚀 Opening Portal</h3>
+                    <p>Transporting your seal to Sudoku Shisho...</p>
+                    <p><strong>Mission Status:</strong> Redirecting</p>
                 </div>
-                <a class="btn" href="${deepLink}" id="redirectBtn">⚡ 手動扉入場</a>
+                <a class="btn" href="${deepLink}" id="redirectBtn">⚡ Manual Portal Entry</a>
                 <div class="info">
-                    <p>🛡️ あなたの機器に Sudoku Shisho がインストールされていることを確認してください</p>
-                    <p>🎯 扉が作動しない場合は、上記の手動入場を使用してください</p>
+                    <p>🛡️ Ensure Sudoku Shisho is installed on your device</p>
+                    <p>🎯 If portal doesn't activate, use manual entry above</p>
                 </div>
             `;
             
@@ -670,31 +670,31 @@
                 setTimeout(() => {
                     content.innerHTML = `
                         <div class="warning">
-                            <h3>⚠️ 扉の接続に失敗</h3>
-                            <p>あなたの印を自動転送できません。手動方法をお試しください:</p>
+                            <h3>⚠️ Portal Connection Failed</h3>
+                            <p>Unable to automatically transport your seal. Please try manual methods:</p>
                         </div>
-                        <a class="btn" href="${deepLink}">🎯 扉入場を再試行</a>
+                        <a class="btn" href="${deepLink}">🎯 Retry Portal Entry</a>
                         
                         <div class="manual-instructions">
-                            <h3>🔧 代替印章引き換え</h3>
-                            <p>上記の扉が失敗した場合、以下の忍者の技を使用してください:</p>
+                            <h3>🔧 Alternative Seal Redemption</h3>
+                            <p>If the portal above fails, follow these warrior techniques:</p>
                             <ol>
-                                <li>📱 手動で Sudoku Shisho アプリを開く</li>
-                                <li>⚙️ 設定 → アカウント に移動</li>
-                                <li>🎫 「メール認証」を見つける</li>
-                                <li>🔐 これらの印章を入力:</li>
+                                <li>📱 Manually open Sudoku Shisho app</li>
+                                <li>⚙️ Navigate to Settings → Account</li>
+                                <li>🎫 Find "Email Verification"</li>
+                                <li>🔐 Enter these stamps:</li>
                             </ol>
-                            <p><strong>ユーザー印章:</strong><br><code>${userId}</code></p>
-                            <p><strong>秘密印章:</strong><br><code>${secret}</code></p>
-                            <p><strong>期限印章:</strong><br><code>${expire || token || '永続'}</code></p>
+                            <p><strong>User Stamp:</strong><br><code>${userId}</code></p>
+                            <p><strong>Secret Stamp:</strong><br><code>${secret}</code></p>
+                            <p><strong>Expiry Stamp:</strong><br><code>${expire || token || 'Eternal'}</code></p>
                         </div>
                         
                         <div class="info">
-                            <p><strong>🛠️ トラブルシューティング:</strong></p>
+                            <p><strong>🛠️ Troubleshooting:</strong></p>
                             <ul>
-                                <li>🔄 Sudoku Shisho がインストールされ、更新されていることを確認</li>
-                                <li>📋 手動入力用に印章をコピー</li>
-                                <li>📧 問題が続く場合はサポート忍者にお問い合わせ</li>
+                                <li>🔄 Ensure Sudoku Shisho is installed and updated</li>
+                                <li>📋 Copy the stamps for manual entry</li>
+                                <li>📧 Contact our support warriors if issues persist</li>
                             </ul>
                         </div>
                     `;
