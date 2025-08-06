@@ -20,18 +20,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Changed from center to flex-start for portrait */
             min-height: 100vh;
             min-height: 100dvh; /* Dynamic viewport height for mobile */
             margin: 0;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
-                linear-gradient(135deg, #1c1917 0%, #292524 30%, #1c1917 100%);
-            color: #f3f4f6;
-            padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
+                radial-gradient(circle at 20% 30%, rgba(0, 170, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 51, 78, 0.05) 0%, transparent 50%),
+                linear-gradient(180deg, #001624 0%, #002b3d 50%, #001624 100%); /* Default theme colors */
+            color: #ffffff;
+            padding: max(env(safe-area-inset-top, 20px), 20px) env(safe-area-inset-right, 16px) max(env(safe-area-inset-bottom, 20px), 20px) env(safe-area-inset-left, 16px);
             text-align: center;
-            overflow: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-y: auto; /* Allow vertical scroll in portrait */
             position: relative;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -48,8 +49,8 @@
             height: 100%;
             opacity: 0.03;
             background-image: 
-                radial-gradient(circle at 25% 25%, #dc2626 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, #dc2626 2px, transparent 2px);
+                radial-gradient(circle at 25% 25%, #00aaff 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #00aaff 2px, transparent 2px);
             background-size: 60px 60px;
             background-position: 0 0, 30px 30px;
             pointer-events: none;
@@ -71,7 +72,7 @@
             position: absolute;
             width: 8px;
             height: 8px;
-            background: #fda4af;
+            background: #80deea; /* Default theme textSecondary color for petals */
             border-radius: 50% 0 50% 0;
             opacity: 0.6;
             animation: fall 8s infinite linear;
@@ -89,19 +90,20 @@
         }
 
         .container {
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
+            max-width: 400px; /* Reduced width for portrait */
+            width: calc(100% - 32px); /* Account for body padding */
+            padding: 30px 24px; /* Adjusted padding for portrait */
+            margin: 20px auto; /* Add top/bottom margin for portrait scrolling */
             background: 
-                linear-gradient(145deg, rgba(23, 23, 23, 0.95), rgba(38, 38, 38, 0.95)),
-                radial-gradient(circle at top right, rgba(220, 38, 38, 0.1), transparent 50%);
-            border-radius: 12px;
+                linear-gradient(145deg, rgba(0, 22, 36, 0.95), rgba(0, 43, 61, 0.95)),
+                radial-gradient(circle at top center, rgba(0, 170, 255, 0.1), transparent 50%); /* Default theme colors */
+            border-radius: 16px; /* Slightly larger radius for modern look */
             box-shadow: 
                 0 20px 60px rgba(0, 0, 0, 0.4),
-                inset 0 0 0 1px rgba(220, 38, 38, 0.2),
-                inset 0 0 20px rgba(220, 38, 38, 0.05);
+                inset 0 0 0 1px rgba(0, 170, 255, 0.2),
+                inset 0 0 20px rgba(0, 170, 255, 0.05);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(220, 38, 38, 0.3);
+            border: 2px solid rgba(0, 170, 255, 0.3); /* Default theme accent color */
             position: relative;
             z-index: 2;
             animation: containerFloat 6s ease-in-out infinite;
@@ -119,7 +121,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, #dc2626, #f59e0b, #dc2626, #f59e0b);
+            background: linear-gradient(45deg, #00aaff, #005f73, #00aaff, #005f73); /* Default theme colors */
             border-radius: 12px;
             z-index: -1;
             animation: borderGlow 3s ease-in-out infinite alternate;
@@ -130,12 +132,12 @@
             100% { opacity: 0.6; }
         }
 
-        /* Traditional Japanese Shuriken Token */
+        /* Traditional Japanese Shuriken Token - Portrait Optimized */
         .ninja-token {
             position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 20px auto;
+            width: 100px; /* Smaller for portrait */
+            height: 100px;
+            margin: 16px auto; /* Reduced margin */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,22 +161,22 @@
 
         .shuriken {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 80px; /* Smaller for portrait */
+            height: 80px;
             background: 
                 linear-gradient(45deg, 
-                    #dc2626 0%, 
-                    #f59e0b 25%, 
-                    #dc2626 50%, 
-                    #991b1b 75%, 
-                    #dc2626 100%
-                );
+                    #00aaff 0%, 
+                    #005f73 25%, 
+                    #00aaff 50%, 
+                    #001624 75%, 
+                    #00aaff 100%
+                ); /* Default theme colors */
             clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
             animation: rotateShuriken 6s linear infinite;
             box-shadow: 
-                0 0 30px rgba(220, 38, 38, 0.6),
+                0 0 30px rgba(0, 170, 255, 0.6),
                 inset 0 0 20px rgba(255, 255, 255, 0.1),
-                inset 0 0 0 2px rgba(139, 69, 19, 0.8);
+                inset 0 0 0 2px rgba(0, 95, 115, 0.8); /* Default theme border color */
             transition: all 0.3s ease;
         }
 
@@ -182,20 +184,20 @@
         .ninja-token.touched .shuriken {
             animation: rotateShuriken 2s linear infinite;
             box-shadow: 
-                0 0 40px rgba(220, 38, 38, 0.8),
+                0 0 40px rgba(0, 170, 255, 0.8),
                 inset 0 0 20px rgba(255, 255, 255, 0.2),
-                inset 0 0 0 2px rgba(139, 69, 19, 1);
+                inset 0 0 0 2px rgba(0, 95, 115, 1);
         }
 
         .shuriken.glow {
             position: absolute;
-            width: 115px;
-            height: 115px;
+            width: 92px; /* Adjusted for smaller shuriken */
+            height: 92px;
             background: 
                 linear-gradient(45deg, 
-                    rgba(220, 38, 38, 0.4), 
-                    rgba(245, 158, 11, 0.4)
-                );
+                    rgba(0, 170, 255, 0.4), 
+                    rgba(0, 95, 115, 0.4)
+                ); /* Default theme colors with transparency */
             clip-path: polygon(50% 0%, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0% 50%, 35% 35%);
             animation: rotateShuriken 6s linear infinite, breathe 3s ease-in-out infinite;
             filter: blur(5px);
@@ -203,33 +205,33 @@
 
         .token-center {
             position: absolute;
-            width: 35px;
-            height: 35px;
+            width: 28px; /* Smaller for portrait */
+            height: 28px;
             background: 
                 radial-gradient(circle, 
-                    #fbbf24 0%, 
-                    #f59e0b 50%, 
-                    #d97706 100%
-                );
+                    #00aaff 0%, 
+                    #005f73 50%, 
+                    #001624 100%
+                ); /* Default theme accent colors */
             border-radius: 50%;
             z-index: 3;
             box-shadow: 
-                0 0 15px rgba(245, 158, 11, 0.8),
+                0 0 15px rgba(0, 170, 255, 0.8),
                 inset 0 0 10px rgba(255, 255, 255, 0.3),
-                inset 0 0 0 2px rgba(139, 69, 19, 0.6);
-            border: 1px solid #92400e;
+                inset 0 0 0 2px rgba(0, 95, 115, 0.6);
+            border: 1px solid #004d61;
         }
 
         .token-center::after {
-            content: '印';
+            content: '✓'; /* Changed from Japanese character to checkmark */
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 18px;
+            font-size: 14px; /* Smaller font for smaller token */
             font-weight: bold;
-            color: #451a03;
-            text-shadow: 0 1px 2px rgba(245, 158, 11, 0.5);
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 170, 255, 0.5);
         }
 
         @keyframes rotateShuriken {
@@ -243,60 +245,62 @@
         }
 
         h1 {
-            color: #dc2626;
-            margin-bottom: 10px;
-            font-size: 36px;
+            color: #00aaff; /* Default theme accent color */
+            margin-bottom: 8px; /* Reduced margin for portrait */
+            font-size: 32px; /* Slightly smaller for portrait */
             font-weight: 900;
             text-shadow: 
                 2px 2px 4px rgba(0, 0, 0, 0.7),
-                0 0 20px rgba(220, 38, 38, 0.5);
-            letter-spacing: 2px;
+                0 0 20px rgba(0, 170, 255, 0.5);
+            letter-spacing: 1.5px; /* Reduced letter spacing */
+            line-height: 1.1; /* Tighter line height for portrait */
         }
 
         .subtitle {
-            font-size: 20px;
-            color: #f59e0b;
-            margin-bottom: 30px;
+            font-size: 18px; /* Slightly smaller for portrait */
+            color: #b3cde0; /* Default theme textSecondary color */
+            margin-bottom: 24px; /* Reduced margin */
             font-weight: 500;
             text-shadow: 
                 1px 1px 2px rgba(0, 0, 0, 0.7),
-                0 0 10px rgba(245, 158, 11, 0.3);
-            letter-spacing: 1px;
+                0 0 10px rgba(179, 205, 224, 0.3);
+            letter-spacing: 0.8px;
         }
 
         .token-text {
-            font-size: 16px;
-            color: #e5e7eb;
-            margin-bottom: 20px;
+            font-size: 14px; /* Smaller for portrait */
+            color: #ffffff; /* Default theme text color */
+            margin-bottom: 16px; /* Reduced margin */
             font-style: italic;
             font-weight: 300;
+            line-height: 1.4;
         }
 
         .btn {
             display: inline-block;
             background: 
                 linear-gradient(145deg, 
-                    #dc2626 0%, 
-                    #f59e0b 50%, 
-                    #dc2626 100%
-                );
-            color: #fef7cd;
+                    #00aaff 0%, 
+                    #005f73 50%, 
+                    #00aaff 100%
+                ); /* Default theme colors */
+            color: #ffffff;
             font-weight: 700;
-            padding: 18px 36px; /* Larger touch target for mobile */
+            padding: 16px 32px; /* Slightly smaller padding for portrait */
             border-radius: 12px;
-            margin: 20px 0;
+            margin: 16px 0; /* Reduced margin */
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 
-                0 8px 20px rgba(220, 38, 38, 0.4),
+                0 8px 20px rgba(0, 170, 255, 0.4),
                 inset 0 1px 3px rgba(255, 255, 255, 0.2),
-                inset 0 0 0 1px rgba(139, 69, 19, 0.6);
-            border: 2px solid rgba(139, 69, 19, 0.8);
+                inset 0 0 0 1px rgba(0, 95, 115, 0.6);
+            border: 2px solid rgba(0, 95, 115, 0.8); /* Default theme border color */
             position: relative;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             font-size: 16px; /* Minimum 16px to prevent zoom on iOS */
-            letter-spacing: 1px;
+            letter-spacing: 0.8px; /* Reduced letter spacing */
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
             min-height: 44px; /* iOS recommended minimum touch target */
             display: inline-flex;
@@ -305,6 +309,8 @@
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            width: 100%; /* Full width for portrait */
+            max-width: 320px; /* Reasonable max width */
         }
 
         .btn:active {
@@ -327,15 +333,15 @@
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 
-                0 12px 30px rgba(220, 38, 38, 0.6),
+                0 12px 30px rgba(0, 170, 255, 0.6),
                 inset 0 1px 3px rgba(255, 255, 255, 0.3),
-                inset 0 0 0 1px rgba(139, 69, 19, 0.8);
+                inset 0 0 0 1px rgba(0, 95, 115, 0.8);
             background: 
                 linear-gradient(145deg, 
-                    #ef4444 0%, 
-                    #fbbf24 50%, 
-                    #ef4444 100%
-                );
+                    #0099e6 0%, 
+                    #007fb3 50%, 
+                    #0099e6 100%
+                ); /* Slightly brighter version of default theme colors */
         }
 
         .btn:hover::before {
@@ -363,12 +369,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border: 4px solid rgba(120, 113, 108, 0.3);
-            border-top: 4px solid #dc2626;
-            border-right: 4px solid #f59e0b;
+            border: 4px solid rgba(0, 51, 78, 0.3); /* Default theme secondary with transparency */
+            border-top: 4px solid #00aaff; /* Default theme accent */
+            border-right: 4px solid #005f73; /* Default theme border */
             border-radius: 50%;
             animation: spin 1.5s linear infinite;
-            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
         }
 
         @keyframes spin {
@@ -377,23 +383,23 @@
         }
 
         .info {
-            margin-top: 20px;
-            color: #d1d5db;
-            font-size: 14px;
-            line-height: 1.8;
+            margin-top: 16px; /* Reduced margin for portrait */
+            color: #b3cde0; /* Default theme textSecondary */
+            font-size: 13px; /* Slightly smaller for portrait */
+            line-height: 1.6; /* Better line height for readability */
             font-weight: 300;
         }
 
         .manual-instructions {
-            margin-top: 30px;
-            padding: 25px;
+            margin-top: 24px; /* Reduced margin */
+            padding: 20px; /* Reduced padding */
             background: 
-                linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(23, 23, 23, 0.6)),
-                radial-gradient(circle at bottom left, rgba(220, 38, 38, 0.1), transparent 50%);
+                linear-gradient(145deg, rgba(0, 22, 36, 0.4), rgba(0, 43, 61, 0.6)),
+                radial-gradient(circle at bottom left, rgba(0, 170, 255, 0.1), transparent 50%); /* Default theme colors */
             border-radius: 12px;
             text-align: left;
-            border-left: 4px solid #dc2626;
-            border: 1px solid rgba(220, 38, 38, 0.4);
+            border-left: 4px solid #00aaff; /* Default theme accent */
+            border: 1px solid rgba(0, 170, 255, 0.4);
             box-shadow: 
                 inset 0 1px 3px rgba(0, 0, 0, 0.5),
                 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -401,24 +407,24 @@
 
         .manual-instructions h3 {
             margin-top: 0;
-            color: #dc2626;
+            color: #00aaff; /* Default theme accent */
             text-shadow: 
                 1px 1px 2px rgba(0, 0, 0, 0.7),
-                0 0 10px rgba(220, 38, 38, 0.4);
+                0 0 10px rgba(0, 170, 255, 0.4);
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         .manual-instructions code {
             background: 
-                linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.25));
-            color: #fbbf24;
+                linear-gradient(145deg, rgba(0, 170, 255, 0.15), rgba(0, 170, 255, 0.25)); /* Default theme accent with transparency */
+            color: #80deea; /* Default theme textSecondary */
             padding: 8px 12px;
             border-radius: 6px;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 13px;
             word-break: break-all;
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            border: 1px solid rgba(0, 170, 255, 0.4);
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
@@ -432,104 +438,204 @@
         }
 
         .footer a {
-            color: #f59e0b;
+            color: #00aaff; /* Default theme accent */
             text-decoration: none;
             transition: all 0.3s ease;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .footer a:hover {
-            color: #dc2626;
+            color: #80deea; /* Default theme textSecondary */
             text-shadow: 
                 1px 1px 2px rgba(0, 0, 0, 0.7),
-                0 0 8px rgba(220, 38, 38, 0.6);
+                0 0 8px rgba(0, 170, 255, 0.6);
         }
 
         .error {
-            color: #fca5a5;
+            color: #ff4d4d; /* Default theme error color */
             background: 
-                linear-gradient(145deg, rgba(220, 38, 38, 0.15), rgba(220, 38, 38, 0.25));
+                linear-gradient(145deg, rgba(255, 77, 77, 0.15), rgba(255, 77, 77, 0.25));
             padding: 20px;
             border-radius: 10px;
             margin: 15px 0;
-            border: 1px solid rgba(220, 38, 38, 0.4);
+            border: 1px solid rgba(255, 77, 77, 0.4);
             box-shadow: 
                 inset 0 1px 3px rgba(0, 0, 0, 0.3),
-                0 4px 15px rgba(220, 38, 38, 0.2);
+                0 4px 15px rgba(255, 77, 77, 0.2);
         }
 
         .success {
-            color: #86efac;
+            color: #4ECB71; /* Default theme success color */
             background: 
-                linear-gradient(145deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.25));
+                linear-gradient(145deg, rgba(78, 203, 113, 0.15), rgba(78, 203, 113, 0.25));
             padding: 20px;
             border-radius: 10px;
             margin: 15px 0;
-            border: 1px solid rgba(34, 197, 94, 0.4);
+            border: 1px solid rgba(78, 203, 113, 0.4);
             box-shadow: 
                 inset 0 1px 3px rgba(0, 0, 0, 0.3),
-                0 4px 15px rgba(34, 197, 94, 0.2);
+                0 4px 15px rgba(78, 203, 113, 0.2);
         }
 
         .warning {
-            color: #fcd34d;
+            color: #80deea; /* Default theme textSecondary */
             background: 
-                linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.25));
+                linear-gradient(145deg, rgba(128, 222, 234, 0.15), rgba(128, 222, 234, 0.25));
             padding: 20px;
             border-radius: 10px;
             margin: 15px 0;
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            border: 1px solid rgba(128, 222, 234, 0.4);
             box-shadow: 
                 inset 0 1px 3px rgba(0, 0, 0, 0.3),
-                0 4px 15px rgba(245, 158, 11, 0.2);
+                0 4px 15px rgba(128, 222, 234, 0.2);
         }
 
-        /* Responsive design */
+        /* Portrait-optimized responsive design */
         @media (max-width: 600px) {
             .container {
-                margin: 10px;
-                padding: 30px 20px;
+                margin: 10px auto;
+                padding: 24px 20px; /* Optimized for portrait */
+                max-width: calc(100% - 20px); /* Account for margins */
             }
             
             h1 {
                 font-size: 28px;
+                margin-bottom: 6px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+                margin-bottom: 20px;
             }
             
             .ninja-token {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .ninja-star {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .ninja-star.glow {
                 width: 90px;
                 height: 90px;
+                margin: 12px auto;
+            }
+            
+            .shuriken {
+                width: 72px;
+                height: 72px;
+            }
+            
+            .shuriken.glow {
+                width: 82px;
+                height: 82px;
+            }
+            
+            .token-center {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .token-center::after {
+                font-size: 12px;
+            }
+            
+            .token-text {
+                font-size: 13px;
+                margin-bottom: 14px;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+                font-size: 15px;
+                margin: 14px 0;
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .info {
+                font-size: 12px;
+                margin-top: 14px;
+            }
+        }
+
+        /* Extra small portrait screens (iPhone SE, etc.) */
+        @media (max-width: 375px) {
+            .container {
+                padding: 20px 16px;
+                margin: 8px auto;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin-bottom: 4px;
+            }
+            
+            .subtitle {
+                font-size: 14px;
+                margin-bottom: 16px;
+            }
+            
+            .ninja-token {
+                width: 80px;
+                height: 80px;
+                margin: 10px auto;
+            }
+            
+            .shuriken {
+                width: 64px;
+                height: 64px;
+            }
+            
+            .shuriken.glow {
+                width: 72px;
+                height: 72px;
+            }
+            
+            .token-center {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .token-center::after {
+                font-size: 10px;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 14px;
+                max-width: 260px;
             }
         }
     </style>
 
     <!-- iOS-specific optimizations -->
     <style>
-        /* Mobile responsive improvements */
+        /* Portrait mobile optimizations */
         @media screen and (max-width: 480px) {
+            body {
+                padding: max(env(safe-area-inset-top, 16px), 16px) env(safe-area-inset-right, 12px) max(env(safe-area-inset-bottom, 16px), 16px) env(safe-area-inset-left, 12px);
+            }
+            
             .container {
-                padding: 10px;
-                margin: 0 auto;
+                padding: 20px 16px;
+                margin: 12px auto;
+                border-radius: 14px;
             }
             
             .ninja-token {
-                transform: scale(0.8);
+                transform: scale(0.9); /* Slightly smaller for portrait */
             }
             
             .btn {
                 width: 100%;
                 max-width: 300px;
-                margin: 20px auto;
+                margin: 16px auto;
                 display: block;
+                padding: 14px 24px;
+            }
+            
+            h1 {
+                font-size: 26px;
+                letter-spacing: 1px;
+            }
+            
+            .subtitle {
+                font-size: 15px;
+                letter-spacing: 0.5px;
             }
         }
 
@@ -549,14 +655,14 @@
 
         /* Error handling styles for iOS */
         .error-message {
-            background: linear-gradient(135deg, #dc2626, #f59e0b);
-            color: #fef7cd;
+            background: linear-gradient(135deg, #ff4d4d, #00aaff); /* Default theme error and accent */
+            color: #ffffff;
             padding: 15px;
             border-radius: 8px;
             margin: 20px 0;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
         }
 
         /* Optimized sakura petals for mobile performance */
@@ -850,8 +956,8 @@
                     <h3>🚀 Launching Sudoku Shisho</h3>
                     <p>Opening the app to complete verification...</p>
                     <div style="margin: 20px 0;">
-                        <div style="width: 100%; height: 6px; background: rgba(220, 38, 38, 0.2); border-radius: 3px; overflow: hidden;">
-                            <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #dc2626, #f59e0b); border-radius: 3px; animation: launchProgress 3s ease-out;"></div>
+                        <div style="width: 100%; height: 6px; background: rgba(0, 51, 78, 0.2); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #00aaff, #005f73); border-radius: 3px; animation: launchProgress 3s ease-out;"></div>
                         </div>
                         <p style="font-size: 14px; margin-top: 10px; opacity: 0.8;">
                             ${platformEmoji} Optimized for ${platformName}
@@ -875,7 +981,7 @@
             if (manualBtn) {
                 manualBtn.addEventListener('touchstart', function(e) {
                     this.style.transform = 'translateY(-2px) scale(0.97)';
-                    this.style.boxShadow = '0 12px 25px rgba(220, 38, 38, 0.5)';
+                    this.style.boxShadow = '0 12px 25px rgba(0, 170, 255, 0.5)'; /* Default theme accent */
                     
                     // Add haptic feedback simulation
                     if (navigator.vibrate) {
