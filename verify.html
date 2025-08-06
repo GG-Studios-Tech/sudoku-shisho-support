@@ -560,7 +560,7 @@
                         <p><strong>Mission Status:</strong> Failed</p>
                         <p>Please retrieve a new seal from your email and try again.</p>
                     </div>
-                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">Fallback</a>
+                    <a class="btn" href="https://gg-studios-tech.github.io/sudoku-shisho-support/">🏠 Return to Base</a>
                 `;
                 return;
             }
@@ -666,37 +666,14 @@
             setTimeout(() => {
                 window.location.href = deepLink;
                 
-                // After 3 seconds, if still here, show fallback message with more detailed instructions
+                // After 3 seconds, if still here, show simple retry button
                 setTimeout(() => {
                     content.innerHTML = `
                         <div class="warning">
                             <h3>⚠️ Portal Connection Failed</h3>
-                            <p>Unable to automatically transport your seal. Please try manual methods:</p>
+                            <p>Unable to automatically transport your seal. Please try the manual portal entry:</p>
                         </div>
                         <a class="btn" href="${deepLink}">🎯 Retry Portal Entry</a>
-                        
-                        <div class="manual-instructions">
-                            <h3>🔧 Alternative Seal Redemption</h3>
-                            <p>If the portal above fails, follow these warrior techniques:</p>
-                            <ol>
-                                <li>📱 Manually open Sudoku Shisho app</li>
-                                <li>⚙️ Navigate to Settings → Account</li>
-                                <li>🎫 Find "Email Verification"</li>
-                                <li>🔐 Enter these stamps:</li>
-                            </ol>
-                            <p><strong>User Stamp:</strong><br><code>${userId}</code></p>
-                            <p><strong>Secret Stamp:</strong><br><code>${secret}</code></p>
-                            <p><strong>Expiry Stamp:</strong><br><code>${expire || token || 'Eternal'}</code></p>
-                        </div>
-                        
-                        <div class="info">
-                            <p><strong>🛠️ Troubleshooting:</strong></p>
-                            <ul>
-                                <li>🔄 Ensure Sudoku Shisho is installed and updated</li>
-                                <li>📋 Copy the stamps for manual entry</li>
-                                <li>📧 Contact our support warriors if issues persist</li>
-                            </ul>
-                        </div>
                     `;
                 }, 3000);
             }, 1000);
